@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Muay Thai Coach | Smart Home Training</title>
+    <!-- Font Awesome 6 (free icons for visual representation) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Google Fonts for better typography -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #0b0f1c;
+            color: #eef2ff;
+            line-height: 1.5;
+            padding: 1.5rem;
+        }
+
+        .container {
+            max-width: 1300px;
+            margin: 0 auto;
+        }
+
+        /* Card styles */
+        .card {
+            background: rgba(18, 25, 45, 0.85);
+            backdrop-filter: blur(2px);
+            border-radius: 2rem;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 20px 35px -12px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 70, 85, 0.3);
+            transition: transform 0.2s ease;
+        }
+
+        .glass-panel {
+            background: rgba(10, 16, 30, 0.7);
+            border-radius: 1.75rem;
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 100, 100, 0.2);
+        }
+
+        h1 {
+            font-size: 2.2rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #FF6A6A, #F9D56E);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            letter-spacing: -0.5px;
+            display: inline-block;
+        }
+
+        .sub {
+            color: #9ca3cf;
+            margin-top: 0.4rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            font-weight: 600;
+            display: block;
+            margin-bottom: 0.5rem;
+            font-size: 0.95rem;
+            letter-spacing: 0.3px;
+        }
+
+        select, input {
+            width: 100%;
+            padding: 0.9rem 1rem;
+            background: #0f172f;
+            border: 1px solid #2d3a5e;
+            border-radius: 1.25rem;
+            color: white;
+            font-size: 1rem;
+            font-family: inherit;
+            outline: none;
+            transition: all 0.2s;
+        }
+
+        select:focus, input:focus {
+            border-color: #ff5e5e;
+            box-shadow: 0 0 0 2px rgba(255, 94, 94, 0.3);
+        }
+
+        button {
+            background: linear-gradient(105deg, #e63e3e, #ff794d);
+            border: none;
+            padding: 0.9rem 1.8rem;
+            border-radius: 2rem;
+            font-weight: 700;
+            font-size: 1rem;
+            color: white;
+            cursor: pointer;
+            transition: 0.2s;
+            font-family: inherit;
+            box-shadow: 0 5px 10px rgba(230, 62, 62, 0.3);
+        }
+
+        button:hover {
+            transform: scale(1.02);
+            background: linear-gradient(105deg, #ff4a4a, #ff8c5a);
+            box-shadow: 0 8px 20px rgba(230, 62, 62, 0.5);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 1.5px solid #ff6b6b;
+            color: #ffb4b4;
+            box-shadow: none;
+        }
+
+        .btn-outline:hover {
+            background: rgba(255, 107, 107, 0.1);
+            transform: none;
+        }
+
+        .exercise-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.6rem;
+            margin: 2rem 0 1.5rem;
+        }
+
+        .exercise-card {
+            background: #111827e0;
+            border-radius: 1.5rem;
+            padding: 1.2rem;
+            border-left: 5px solid #ff5e5e;
+            transition: all 0.2s;
+            backdrop-filter: blur(4px);
+        }
+
+        .exercise-icon {
+            font-size: 2.6rem;
+            margin-bottom: 0.8rem;
+            color: #ffa05e;
+        }
+
+        .exercise-name {
+            font-size: 1.4rem;
+            font-weight: 700;
+            letter-spacing: -0.3px;
+        }
+
+        .exercise-desc {
+            font-size: 0.8rem;
+            color: #babde2;
+            margin-top: 0.2rem;
+            margin-bottom: 0.8rem;
+        }
+
+        .duration-badge {
+            background: #1f2a48;
+            padding: 0.3rem 0.8rem;
+            border-radius: 2rem;
+            font-size: 0.8rem;
+            font-weight: 600;
+            display: inline-block;
+            margin: 0.7rem 0;
+        }
+
+        .timer-buttons {
+            display: flex;
+            gap: 0.7rem;
+            margin-top: 0.8rem;
+            flex-wrap: wrap;
+        }
+
+        .timer-sm-btn {
+            background: #2a3655;
+            padding: 0.5rem 0.9rem;
+            font-size: 0.8rem;
+            border-radius: 2rem;
+            font-weight: 500;
+        }
+
+        .global-timer {
+            background: #030617cc;
+            border-radius: 2rem;
+            padding: 1.2rem;
+            margin-top: 1.2rem;
+            text-align: center;
+            border: 1px solid #ff8a5c;
+        }
+
+        .timer-display {
+            font-size: 3.5rem;
+            font-family: monospace;
+            font-weight: 800;
+            letter-spacing: 4px;
+            background: #00000055;
+            display: inline-block;
+            padding: 0.5rem 1.8rem;
+            border-radius: 3rem;
+            margin: 0.5rem 0;
+        }
+
+        .flex-between {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .rest-badge {
+            background: #2d3e6e;
+        }
+
+        hr {
+            border-color: #2a3655;
+            margin: 1rem 0;
+        }
+
+        .footer-note {
+            text-align: center;
+            font-size: 0.75rem;
+            color: #6c7892;
+            margin-top: 2.5rem;
+        }
+
+        @media (max-width: 640px) {
+            body {
+                padding: 1rem;
+            }
+            .timer-display {
+                font-size: 2.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <!-- Header -->
+    <div class="flex-between" style="margin-bottom: 1rem;">
+        <div>
+            <h1>🥊 MUAY THAI COACH</h1>
+            <div class="sub">Smart training — tailored to your level & goals</div>
+        </div>
+        <i class="fas fa-fist-raised" style="font-size: 2.4rem; color: #ff9f6e;"></i>
+    </div>
+
+    <!-- SECTION 1: Questionnaire (will be hidden after submit) -->
+    <div id="questionnaireCard" class="card">
+        <h2 style="font-size: 1.6rem; margin-bottom: 1rem;"><i class="fas fa-notes-medical"></i> Let's customise your Muay Thai plan</h2>
+        <div class="form-group">
+            <label><i class="fas fa-user"></i> Your name (optional)</label>
+            <input type="text" id="username" placeholder="Fighter...">
+        </div>
+        <div class="form-group">
+            <label><i class="fas fa-chart-line"></i> Experience level</label>
+            <select id="level">
+                <option value="beginner">🥋 Beginner (0–6 months)</option>
+                <option value="intermediate" selected>🔥 Intermediate (6–18 months)</option>
+                <option value="advanced">💀 Advanced (1.5+ years / fight experience)</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label><i class="fas fa-bullseye"></i> Main goal</label>
+            <select id="goal">
+                <option value="cardio">❤️ Cardio & Conditioning</option>
+                <option value="technique">🎯 Technique & Form mastery</option>
+                <option value="fight">🥊 Fight prep / power</option>
+                <option value="fitness">💪 Overall fitness & toning</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label><i class="fas fa-hourglass-half"></i> Session duration (minutes)</label>
+            <select id="duration">
+                <option value="15">⚡ Quick blast — 15 min</option>
+                <option value="30" selected>🏋️ Standard — 30 min</option>
+                <option value="45">⏳ Full warrior — 45 min</option>
+            </select>
+        </div>
+        <button id="generateBtn"><i class="fas fa-dharmachakra"></i> Generate my Muay Thai program</button>
+        <p style="font-size: 0.75rem; margin-top: 1rem; opacity: 0.7;"><i class="fas fa-info-circle"></i> Tailored exercises, visual cues, and integrated timer for each drill.</p>
+    </div>
+
+    <!-- SECTION 2: Workout plan + visual exercises + timer (hidden initially) -->
+    <div id="workoutSection" style="display: none;">
+        <div class="flex-between">
+            <h2><i class="fas fa-calendar-alt"></i> Your <span id="planName">🔥</span> program</h2>
+            <button id="resetBtn" class="btn-outline"><i class="fas fa-undo-alt"></i> Change preferences</button>
+        </div>
+        <div id="exercisesContainer" class="exercise-grid"></div>
+
+        <!-- GLOBAL TIMER ZONE -->
+        <div class="global-timer">
+            <div style="font-weight: 600; margin-bottom: 0.2rem;"><i class="fas fa-stopwatch"></i> TRAINING TIMER</div>
+            <div class="timer-display" id="timerDisplay">00:00</div>
+            <div style="display: flex; gap: 0.8rem; justify-content: center; flex-wrap: wrap; margin: 0.8rem 0;">
+                <button id="timerStartBtn" style="background: #2b9348;"><i class="fas fa-play"></i> Start</button>
+                <button id="timerPauseBtn" style="background: #e0a800;"><i class="fas fa-pause"></i> Pause</button>
+                <button id="timerResetBtn" style="background: #ae2012;"><i class="fas fa-stop"></i> Reset</button>
+            </div>
+            <div style="font-size: 0.85rem; background: #00000044; border-radius: 2rem; padding: 0.3rem 1rem; display: inline-block;">
+                💡 Click <strong>"⏱️ Use timer"</strong> on any exercise → auto-load time & start.
+            </div>
+        </div>
+        <div class="footer-note">
+            ⚡ Visual icons & timers — Each card shows Muay Thai movement. Tap timer button to focus on that drill.
+        </div>
+    </div>
+</div>
+
+<script>
+    // ---------- MOCK DATABASE OF EXERCISES (with visual icons & descriptors) ----------
+    // We'll generate dynamic programs based on level, goal and session length
+
+    const exerciseLibrary = {
+        // Basic technique / foundation
+        shadowBoxing: { name: "Shadow Boxing", icon: "fas fa-user-ninja", desc: "Fluid footwork, punches & defensive moves", defaultWorkSec: 90 },
+        teepDrill: { name: "Teep (Push Kick)", icon: "fas fa-shoe-prints", desc: "Front kick + retraction, maintain distance", defaultWorkSec: 60 },
+        roundhouseKick: { name: "Roundhouse Kick", icon: "fas fa-futbol", desc: "Pivot, hip rotation, shin contact", defaultWorkSec: 75 },
+        kneeStrikes: { name: "Knee Strikes (Plum)", icon: "fas fa-hand-peace", desc: "Clinch & knee drive", defaultWorkSec: 60 },
+        jabCrossCombo: { name: "Jab - Cross - Hook", icon: "fas fa-fist-raised", desc: "Speed + power combination", defaultWorkSec: 80 },
+        switchKicks: { name: "Switch Kick", icon: "fas fa-arrows-spin", desc: "Rhythm change + powerful kick", defaultWorkSec: 70 },
+        heavyBagSim: { name: "Bag Work (Imaginary)", icon: "fas fa-dumbbell", desc: "High intensity, 3-4 punch combos + kick", defaultWorkSec: 90 },
+        footworkDrills: { name: "Muay Thai Footwork", icon: "fas fa-shoe-prints", desc: "Pivots, evasion, circling", defaultWorkSec: 60 },
+        clinchDrills: { name: "Clinch & Neck Wrestling", icon: "fas fa-hand-fist", desc: "Control, knees, break defense", defaultWorkSec: 70 },
+        cardioBlast: { name: "Muay Thai Cardio", icon: "fas fa-heartbeat", desc: "high knees, burpees, explosive kicks", defaultWorkSec: 75 },
+        comboFlow: { name: "1-2-3-Kick Flow", icon: "fas fa-person-running", desc: "Fluid combo + roundhouse", defaultWorkSec: 85 },
+        elbowsDrills: { name: "Elbow Strikes", icon: "fas fa-hand-back-fist", desc: "Horizontal & uppercut elbows", defaultWorkSec: 65 },
+        defenseAndSpar: { name: "Defensive Reflexes", icon: "fas fa-shield-haltered", desc: "Parry, block, check kicks", defaultWorkSec: 70 }
+    };
+
+    // Function to generate workout based on inputs
+    function generateWorkout(level, goal, durationMin) {
+        let exercises = [];
+        // Base array selection by level intensity
+        if (level === "beginner") {
+            exercises = [
+                { ...exerciseLibrary.shadowBoxing, workSec: 75 },
+                { ...exerciseLibrary.teepDrill, workSec: 60 },
+                { ...exerciseLibrary.jabCrossCombo, workSec: 70 },
+                { ...exerciseLibrary.footworkDrills, workSec: 60 },
+                { ...exerciseLibrary.kneeStrikes, workSec: 65 }
+            ];
+            if (goal === "cardio") exercises.push({ ...exerciseLibrary.cardioBlast, workSec: 80 });
+            if (goal === "technique") exercises.push({ ...exerciseLibrary.defenseAndSpar, workSec: 70 });
+        } 
+        else if (level === "intermediate") {
+            exercises = [
+                { ...exerciseLibrary.shadowBoxing, workSec: 90 },
+                { ...exerciseLibrary.roundhouseKick, workSec: 80 },
+                { ...exerciseLibrary.switchKicks, workSec: 80 },
+                { ...exerciseLibrary.kneeStrikes, workSec: 75 },
+                { ...exerciseLibrary.comboFlow, workSec: 85 },
+                { ...exerciseLibrary.clinchDrills, workSec: 75 }
+            ];
+            if (goal === "fight") exercises.push({ ...exerciseLibrary.heavyBagSim, workSec: 95 });
+            if (goal === "cardio") exercises.push({ ...exerciseLibrary.cardioBlast, workSec: 85 });
+            if (goal === "technique") exercises.splice(2,0,{ ...exerciseLibrary.teepDrill, workSec: 75 });
+        } 
+        else { // advanced
+            exercises = [
+                { ...exerciseLibrary.comboFlow, workSec: 90 },
+                { ...exerciseLibrary.roundhouseKick, workSec: 90 },
+                { ...exerciseLibrary.heavyBagSim, workSec: 100 },
+                { ...exerciseLibrary.clinchDrills, workSec: 85 },
+                { ...exerciseLibrary.elbowsDrills, workSec: 80 },
+                { ...exerciseLibrary.switchKicks, workSec: 85 },
+                { ...exerciseLibrary.defenseAndSpar, workSec: 80 }
+            ];
+            if (goal === "fight") exercises.push({ ...exerciseLibrary.cardioBlast, workSec: 90 }, { ...exerciseLibrary.kneeStrikes, workSec: 90 });
+            if (goal === "cardio") exercises.unshift({ ...exerciseLibrary.cardioBlast, workSec: 95 });
+        }
+
+        // Goal-specific fine tuning / replace some
+        if (goal === "cardio") {
+            // increase intensity, add extra cardio burst at end
+            exercises.forEach(ex => { ex.workSec = Math.min(110, ex.workSec + 5); });
+            if (!exercises.some(e => e.name === "Muay Thai Cardio")) exercises.push({ ...exerciseLibrary.cardioBlast, workSec: 85 });
+        }
+        if (goal === "technique") {
+            exercises = exercises.filter(ex => ex.name !== "Cardio Blast" && ex.name !== "Heavy Bag Sim");
+            exercises.unshift({ ...exerciseLibrary.teepDrill, workSec: 70 }, { ...exerciseLibrary.defenseAndSpar, workSec: 75 });
+        }
+        if (goal === "fight") {
+            exercises.forEach(ex => { ex.workSec = Math.min(105, ex.workSec + 8); });
+            exercises.push({ ...exerciseLibrary.heavyBagSim, workSec: 95 });
+        }
+        if (goal === "fitness") {
+            // Balanced
+            exercises = exercises.map(ex => ({ ...ex, workSec: Math.floor(ex.workSec * 0.95) }));
+            exercises.unshift({ ...exerciseLibrary.footworkDrills, workSec: 70 });
+        }
+
+        // Remove duplicates by name (keep first)
+        const unique = [];
+        const seen = new Set();
+        for (let ex of exercises) {
+            if (!seen.has(ex.name)) {
+                seen.add(ex.name);
+                unique.push(ex);
+            }
+        }
+        let finalExercises = unique;
+
+        // Trim or extend based on available session duration (rough estimation: work + 25s rest between -> totalTime)
+        let estimatedDuration = finalExercises.reduce((sum, ex) => sum + ex.workSec + 25, 0) / 60;
+        let targetDuration = durationMin;
+        if (estimatedDuration > targetDuration + 8) {
+            // remove some exercises (keep last core)
+            while (finalExercises.length > 3 && (finalExercises.reduce((s,e)=> s + e.workSec + 25,0)/60) > targetDuration + 5) {
+                finalExercises.pop();
+            }
+        } else if (estimatedDuration < targetDuration - 4 && finalExercises.length < 9) {
+            // add extra roundhouse or shadow
+            finalExercises.push({ ...exerciseLibrary.roundhouseKick, workSec: 80 });
+            finalExercises.push({ ...exerciseLibrary.jabCrossCombo, workSec: 75 });
+        }
+
+        // Attach rest period
+        return finalExercises.map((ex, idx) => ({
+            id: idx,
+            name: ex.name,
+            icon: ex.icon,
+            description: ex.desc,
+            workSeconds: ex.workSec,
+            restSeconds: (idx === finalExercises.length-1) ? 0 : 25  // after last no forced rest
+        }));
+    }
+
+    let currentWorkout = [];      // store exercises
+    let activeTimerInterval = null;
+    let timerSeconds = 0;
+    let timerRunning = false;
+
+    // DOM elements
+    const questionnaireDiv = document.getElementById('questionnaireCard');
+    const workoutSection = document.getElementById('workoutSection');
+    const exercisesContainer = document.getElementById('exercisesContainer');
+    const generateBtn = document.getElementById('generateBtn');
+    const resetBtn = document.getElementById('resetBtn');
+    const timerDisplaySpan = document.getElementById('timerDisplay');
+    const startTimerBtn = document.getElementById('timerStartBtn');
+    const pauseTimerBtn = document.getElementById('timerPauseBtn');
+    const resetTimerBtn = document.getElementById('timerResetBtn');
+    const planNameSpan = document.getElementById('planName');
+
+    // Helper: stop timer completely
+    function stopTimer() {
+        if (activeTimerInterval) {
+            clearInterval(activeTimerInterval);
+            activeTimerInterval = null;
+        }
+        timerRunning = false;
+    }
+
+    // Update timer UI
+    function updateTimerUI() {
+        const minutes = Math.floor(timerSeconds / 60);
+        const secs = timerSeconds % 60;
+        timerDisplaySpan.innerText = `${minutes.toString().padStart(2,'0')}:${secs.toString().padStart(2,'0')}`;
+    }
+
+    // Timer countdown logic
+    function startCountdown(seconds, autoStart = true) {
+        stopTimer();
+        timerSeconds = Math.max(0, seconds);
+        updateTimerUI();
+        if (autoStart && timerSeconds > 0) {
+            timerRunning = true;
+            activeTimerInterval = setInterval(() => {
+                if (timerRunning && timerSeconds > 0) {
+                    timerSeconds--;
+                    updateTimerUI();
+                    if (timerSeconds === 0) {
+                        // Timer finished
+                        stopTimer();
+                        timerRunning = false;
+                        updateTimerUI();
+                        // Playful sound / alert (no aggressive popup to avoid spam)
+                        const finishMsg = document.createElement('div');
+                        finishMsg.innerText = "🔔 ROUND COMPLETE! 🔔";
+                        finishMsg.style.position = 'fixed';
+                        finishMsg.style.bottom = '20px';
+                        finishMsg.style.left = '20px';
+                        finishMsg.style.backgroundColor = '#ff5722';
+                        finishMsg.style.color = 'white';
+                        finishMsg.style.padding = '8px 16px';
+                        finishMsg.style.borderRadius = '30px';
+                        finishMsg.style.fontWeight = 'bold';
+                        finishMsg.style.zIndex = '999';
+                        finishMsg.style.fontSize = '0.9rem';
+                        document.body.appendChild(finishMsg);
+                        setTimeout(() => finishMsg.remove(), 2000);
+                        // optional: beep like vibe
+                    }
+                } else if (!timerRunning) {
+                    // paused, do nothing
+                }
+            }, 1000);
+        }
+    }
+
+    // Load timer with specific seconds (and start automatically)
+    function loadAndStartTimer(seconds) {
+        if (seconds <= 0) seconds = 30;
+        startCountdown(seconds, true);
+    }
+
+    // Render exercise cards (visual representation + timer controls)
+    function renderExercises(workoutArray) {
+        if (!workoutArray.length) {
+            exercisesContainer.innerHTML = `<div class="card">⚠️ Could not generate plan, adjust selections.</div>`;
+            return;
+        }
+        let html = '';
+        workoutArray.forEach((ex, idx) => {
+            html += `
+                <div class="exercise-card">
+                    <div class="exercise-icon"><i class="${ex.icon}"></i></div>
+                    <div class="exercise-name">${escapeHtml(ex.name)}</div>
+                    <div class="exercise-desc">${escapeHtml(ex.description)}</div>
+                    <div class="duration-badge"><i class="fas fa-hourglass-half"></i> WORK: ${ex.workSeconds} sec</div>
+                    ${ex.restSeconds > 0 ? `<div class="duration-badge rest-badge"><i class="fas fa-mug-hot"></i> REST: ${ex.restSeconds} sec</div>` : ''}
+                    <div class="timer-buttons">
+                        <button class="timer-sm-btn" data-work="${ex.workSeconds}" data-type="work"><i class="fas fa-stopwatch"></i> ⏱️ Use timer</button>
+                        ${ex.restSeconds > 0 ? `<button class="timer-sm-btn" data-rest="${ex.restSeconds}" data-type="rest"><i class="fas fa-coffee"></i> Rest timer</button>` : ''}
+                    </div>
+                </div>
+            `;
+        });
+        exercisesContainer.innerHTML = html;
+
+        // Attach event listeners to dynamic buttons
+        document.querySelectorAll('.timer-sm-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                let seconds = 0;
+                if (btn.hasAttribute('data-work')) {
+                    seconds = parseInt(btn.getAttribute('data-work'), 10);
+                } else if (btn.hasAttribute('data-rest')) {
+                    seconds = parseInt(btn.getAttribute('data-rest'), 10);
+                }
+                if (!isNaN(seconds) && seconds > 0) {
+                    loadAndStartTimer(seconds);
+                } else {
+                    loadAndStartTimer(45); // fallback
+                }
+            });
+        });
+    }
+
+    // Helper to avoid XSS
+    function escapeHtml(str) {
+        return str.replace(/[&<>]/g, function(m) {
+            if (m === '&') return '&amp;';
+            if (m === '<') return '&lt;';
+            if (m === '>') return '&gt;';
+            return m;
+        });
+    }
+
+    // Main generation logic using user selection
+    function buildAndShowProgram() {
+        const level = document.getElementById('level').value;
+        const goal = document.getElementById('goal').value;
+        const duration = parseInt(document.getElementById('duration').value, 10);
+        const username = document.getElementById('username').value.trim();
+        
+        // generate workout
+        const generated = generateWorkout(level, goal, duration);
+        if (!generated.length) {
+            alert("Could not generate plan, please try other settings.");
+            return;
+        }
+        currentWorkout = generated;
+        // Save to local for reset
+        renderExercises(currentWorkout);
+        
+        // set plan name display
+        let levelName = "🔥 ";
+        if (level === "beginner") levelName = "🥋 Beginner";
+        if (level === "intermediate") levelName = "⚡ Intermediate";
+        if (level === "advanced") levelName = "💀 Advanced";
+        let goalName = "";
+        if (goal === "cardio") goalName = "Cardio";
+        if (goal === "technique") goalName = "Technique";
+        if (goal === "fight") goalName = "Fight Prep";
+        if (goal === "fitness") goalName = "Fitness";
+        planNameSpan.innerText = `${levelName} / ${goalName} • ${duration}min `;
+        if (username) planNameSpan.innerText += `• ${username}`;
+        
+        // hide questionnaire and show workout area
+        questionnaireDiv.style.display = "none";
+        workoutSection.style.display = "block";
+        
+        // reset global timer to 00:00 and stop any running timers
+        stopTimer();
+        timerRunning = false;
+        timerSeconds = 0;
+        updateTimerUI();
+    }
+
+    // reset: go back to questionnaire, stop timers
+    function resetToQuestionnaire() {
+        stopTimer();
+        timerRunning = false;
+        timerSeconds = 0;
+        updateTimerUI();
+        workoutSection.style.display = "none";
+        questionnaireDiv.style.display = "block";
+        // optional reset form fields but we keep previous values
+    }
+
+    // Events for timer controls
+    startTimerBtn.addEventListener('click', () => {
+        if (timerSeconds <= 0) {
+            // if zero, set default 90 sec as placeholder
+            timerSeconds = 90;
+            updateTimerUI();
+        }
+        if (!timerRunning) {
+            if (activeTimerInterval) stopTimer();
+            timerRunning = true;
+            activeTimerInterval = setInterval(() => {
+                if (timerRunning && timerSeconds > 0) {
+                    timerSeconds--;
+                    updateTimerUI();
+                    if (timerSeconds === 0) {
+                        stopTimer();
+                        timerRunning = false;
+                        updateTimerUI();
+                        alert("✅ Timer finished! Great work!");
+                    }
+                } else if (timerRunning && timerSeconds === 0) {
+                    stopTimer();
+                    timerRunning = false;
+                }
+            }, 1000);
+        }
+    });
+    
+    pauseTimerBtn.addEventListener('click', () => {
+        if (timerRunning) {
+            timerRunning = false;
+            if (activeTimerInterval) clearInterval(activeTimerInterval);
+            activeTimerInterval = null;
+        }
+    });
+    
+    resetTimerBtn.addEventListener('click', () => {
+        stopTimer();
+        timerRunning = false;
+        timerSeconds = 0;
+        updateTimerUI();
+    });
+    
+    generateBtn.addEventListener('click', () => {
+        if (!document.getElementById('level').value) return;
+        buildAndShowProgram();
+    });
+    
+    resetBtn.addEventListener('click', () => {
+        resetToQuestionnaire();
+    });
+    
+    // initial preparations: (nothing)
+    console.log("Muay Thai Coach ready!");
+</script>
+</body>
+</html>
